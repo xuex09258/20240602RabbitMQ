@@ -26,21 +26,21 @@ public class OrderService {
 	@Autowired   //1:56
 	private CustomerClient customerClient;
 	
-	//@Autowired
-	//private ProductClient productClient;
+	@Autowired   //bb  2"26
+	private ProductClient productClient;
 	
-	// Item 單筆訂單項目 po 轉 dto
-	//private ItemDto convertToDto(Item item) {
-		//ItemDto itemDto = new ItemDto();
-		//itemDto.setId(item.getId());
-		//itemDto.setQuantity(item.getQuantity());
+	//bb222 2:19  Item 單筆訂單項目 po 轉 dto
+	private ItemDto convertToDto(Item item) {
+		ItemDto itemDto = new ItemDto();
+		itemDto.setId(item.getId());
+		itemDto.setQuantity(item.getQuantity());
 		
-		// 透過 Feign 取得遠端商品資料
-		//Product product = productClient.getProductById(item.getProductId()).getData();
-		//itemDto.setProduct(product);
+		//2:22  透過 Feign 取得遠端商品資料    productClient===>client
+		Product product = productClient.getProductById(item.getProductId()).getData();
+		itemDto.setProduct(product);
 		
-		//return itemDto;
-	//}
+		return itemDto;
+	}
 	
 	// 222 1=49   Order 單筆訂單 po 轉 dto
 	private OrderDto convertToDto(Order order) {
@@ -52,21 +52,22 @@ public class OrderService {
 		Customer customer = customerClient.getCustomerById(order.getId()).getData();
 		orderDto.setCustomer(customer);
 		
+		//下半場 bb111 2:17 
 		// 透過 Feign 取得遠端商品資料
-		//for(Item item : order.getItems()) {
-			// Item po 轉 dto
-			//ItemDto itemDto = convertToDto(item);
-			//orderDto.getItemDtos().add(itemDto);
-		//}
+		for(Item item : order.getItems()) {
+			 //Item po 轉 dto
+			ItemDto itemDto = convertToDto(item);
+			orderDto.getItemDtos().add(itemDto);
+		}
 		
 		return orderDto;
 	}
 	
-	// Orders 多筆訂單 po 轉 dto
-	//private List<OrderDto> convertToDto(List<Order> orders) {
-		//return orders.stream().map(order -> convertToDto(order)).collect(Collectors.toList());
-		//return orders.stream().map(this::convertToDto).collect(Collectors.toList());
-	//}
+	// cc222 2:34 Orders 多筆訂單 po 轉 dto
+	private List<OrderDto> convertToDto(List<Order> orders) {
+	//return orders.stream().map(order -> convertToDto(order)).collect(Collectors.toList());
+		return orders.stream().map(this::convertToDto).collect(Collectors.toList());
+	}
 	
 	// 單筆訂單  111  1:45
 	public OrderDto getOrderById(Integer orderId) {
@@ -79,11 +80,11 @@ public class OrderService {
 		return convertToDto(order);//222
 	}
 	
-	// 所有訂單
-	//public List<OrderDto> findAll() {
-		//List<Order> orders = orderDao.findAll();
-		// 將 List po 轉 List dto
-		//return convertToDto(orders);
-	//}
+	// cc111 2:31 所有訂單
+	public List<OrderDto> findAll() {
+		List<Order> orders = orderDao.findAll();
+		 //將 List po 轉 List dto
+		return convertToDto(orders);
+	}
 	
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.example.demo.model.po.Product;
 import com.example.demo.model.response.ApiResponse;
 
+//2:22 
 //FEIGN-PRODUCT-SERVICE-9091 指的是註冊在 eureka 上的名字也就是應用名稱 "feign-product-service-9091"
 @FeignClient(name = "FEIGN-PRODUCT-SERVICE-9091")
 public interface ProductClient {

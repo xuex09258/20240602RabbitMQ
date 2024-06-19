@@ -33,17 +33,17 @@ public class OrderController {
 		return ResponseEntity.ok(apiResponse);
 	}
 	
-	// 查詢全部訂單
-	//@GetMapping()
-	//public ResponseEntity<ApiResponse<List<OrderDto>>> findAll() {
-		//List<OrderDto> orderDtos = orderService.findAll();
-		//ApiResponse<List<OrderDto>> apiResponse = null;
-		//if(orderDtos.isEmpty()) {
-			//apiResponse = new ApiResponse<>(false, "查無訂單資料", null);
-		//} else {
-			//apiResponse = new ApiResponse<>(true, "資料筆數:" + orderDtos.size(), orderDtos);
-		//}
-		//return ResponseEntity.ok(apiResponse);
-	//} 
+	// 2:40  查詢全部訂單=========================================================
+	@GetMapping()
+	public ResponseEntity<ApiResponse<List<OrderDto>>> findAll() {
+		List<OrderDto> orderDtos = orderService.findAll();
+		ApiResponse<List<OrderDto>> apiResponse = null;
+	    if(orderDtos.isEmpty()) {
+			apiResponse = new ApiResponse<>(false, "查無訂單資料", null);
+		} else {
+			apiResponse = new ApiResponse<>(true, "資料筆數:" + orderDtos.size(), orderDtos);
+		}
+		return ResponseEntity.ok(apiResponse);
+	} 
 	
 }
