@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.client.ClientService;
+import com.example.demo.service.RetryService;
 //import com.example.demo.service.RetryService;
 
 @RestController
@@ -17,18 +18,18 @@ public class ServiceBController {
 	@Autowired
 	private ClientService clientService;
 	
-	//@Autowired  1:17 Retry
-	//private RetryService retryService;
+	@Autowired  //1:35 Retry
+	private RetryService retryService;
 	
 	@GetMapping("/service-b/{name}")
 	public String getResponse(@PathVariable String name) {
 		return clientService.getResponse(name);
 	}
 	
-	//@GetMapping("/retry/service-b/{name}")
-	//public String getRetryResponse(@PathVariable String name) throws IOException, SQLException {
-		//return retryService.getRetryResponse(name);
-	//}
+	@GetMapping("/retry/service-b/{name}")  //1:35
+	public String getRetryResponse(@PathVariable String name) throws IOException, SQLException {
+		return retryService.getRetryResponse(name);
+	}
 	
 	
 }
