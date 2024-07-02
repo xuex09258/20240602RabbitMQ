@@ -103,5 +103,59 @@ public class Resilience4jConfig {
 		return registry;
 	}//222222222222222222222222222222222222222222222222222222222222222222222222222222222222
 	
+	/**
+     * 配置限流機制 (Rate Limiter)
+     * 目的是限制每秒允許的請求數量，防止系統被過多的請求淹沒。
+     * 運作原理是設置每秒允許的最大請求數量和超時時間，超過限制的請求將被拒絕。
+     * 
+     * limitRefreshPeriod: 設置限流的刷新週期為 1 秒。
+     * limitForPeriod: 設置每個週期內允許的最大請求數量為 10。
+     * timeoutDuration: 設置請求超時時間為 500 毫秒。
+     * 
+     * @return RateLimiterRegistry
+     */
+	@Bean
+	public RateLimiterRegistry rateLimiterRegistry() {
+		RateLimiterConfig config = RateLimiterConfig.custom()
+				.limitRefreshPeriod(Duration.ofSeconds(1))
+				.limitForPeriod(10)
+				.timeoutDuration(Duration.ofMillis(500))
+				.build();
+		
+		RateLimiterRegistry registry = RateLimiterRegistry.of(config);
+		RateLimiter rateLimiter = registry.rateLimiter("employeeRateLimiter");
+		
+		rateLimiter.getEventPublisher()
+			.onSuccess(event -> System.out.println("RateLimiter success"))
+			.onFailure(event -> System.out.println("RateLimiter failure"));
+		
+		return registry;
+	}//3333333333333333333333333333333333333333333333333333333333333333333333333333333
+	
+	/**
+     * 配置時間限制機制 (Time Limiter)
+     * 目的是限制方法執行的最大時間，防止長時間未響應的請求拖垮系統。
+     * 運作原理是設置方法執行的最大時間，超過這個時間將拋出 TimeoutException。
+     * 
+     * timeoutDuration: 設置方法執行的最大時間為 3 秒。
+     * 
+     * @return TimeLimiterRegistry
+     */
+	@Bean
+	public TimeLimiterRegistry timeLimiterRegistry() {
+		TimeLimiterConfig config = TimeLimiterConfig.custom()
+				.timeoutDuration(Duration.ofSeconds(3))
+				.build();
+		
+		TimeLimiterRegistry registry = TimeLimiterRegistry.of(config);
+		TimeLimiter timeLimiter = registry.timeLimiter("employeeTimeLimiter");
+		
+		timeLimiter.getEventPublisher()
+			.onSuccess(event -> System.out.println("TimeLimiter success"))
+			.onTimeout(event -> System.out.println("TimeLimiter failure"));
+		
+		return registry;
+	}
+	
 	
 }

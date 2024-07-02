@@ -21,7 +21,7 @@ class Resilience4jProducer6060ApplicationTests {
 					//URL url = new URL("http://localhost:6060/employee/semaphore/1");//1:27
 					//URL url = new URL("http://localhost:6060/employee/threadpool/1");//1:59
 					//URL url = new URL("http://localhost:6060/employee/ratelimit/1");
-					URL url = new URL("http://localhost:6060/employee/timelimiter/1");
+					URL url = new URL("http://localhost:6060/employee/timelimiter/1");//2:40
 					HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 					conn.setRequestMethod("GET");
 					int responseCode = conn.getResponseCode();
