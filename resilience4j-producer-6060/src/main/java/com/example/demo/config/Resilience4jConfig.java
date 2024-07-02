@@ -144,7 +144,7 @@ public class Resilience4jConfig {
 	@Bean
 	public TimeLimiterRegistry timeLimiterRegistry() {
 		TimeLimiterConfig config = TimeLimiterConfig.custom()
-				.timeoutDuration(Duration.ofSeconds(3))
+				.timeoutDuration(Duration.ofSeconds(3))//======2:58=====
 				.build();
 		
 		TimeLimiterRegistry registry = TimeLimiterRegistry.of(config);
