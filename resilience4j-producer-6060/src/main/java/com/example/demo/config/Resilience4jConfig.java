@@ -137,7 +137,7 @@ public class Resilience4jConfig {
      * 目的是限制方法執行的最大時間，防止長時間未響應的請求拖垮系統。
      * 運作原理是設置方法執行的最大時間，超過這個時間將拋出 TimeoutException。
      * 
-     * timeoutDuration: 設置方法執行的最大時間為 3 秒。
+     * timeoutDuration: 設置方法執行的最大時間為 3 秒。======2:58====
      * 
      * @return TimeLimiterRegistry
      */
